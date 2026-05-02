@@ -6,9 +6,9 @@ function tau = impedance_controller(qd, x_curr, J, dJ, B, C_dq, G, he, input, x_
     e = x_des(4:6) - x_curr(4:6);
     ed = xd_des(4:6) - J_pos*qd;
     
-    Md = diag(input.control.Md(4:6));
-    Bd = diag(input.control.Bd(4:6));
-    Kd = diag(input.control.Kd(4:6));
+    Md = diag(cartesian_gain(input.control.Md, true));
+    Bd = diag(cartesian_gain(input.control.Bd, false));
+    Kd = diag(cartesian_gain(input.control.Kd, false));
 
     he_pos = he(4:6);
 
@@ -45,4 +45,24 @@ function tau = impedance_controller(qd, x_curr, J, dJ, B, C_dq, G, he, input, x_
     end
     
     tau = tau - he_joint;    
+end
+
+function gain = cartesian_gain(values, replace_zero)
+    values = values(:);
+
+    if isempty(values)
+        gain = ones(3, 1);
+    elseif numel(values) >= 6
+        gain = values(4:6);
+    elseif numel(values) >= 3
+        gain = values(1:3);
+    elseif numel(values) == 1
+        gain = repmat(values, 3, 1);
+    else
+        gain = [values; repmat(values(end), 3 - numel(values), 1)];
+    end
+
+    if replace_zero
+        gain(gain == 0) = 1;
+    end
 end

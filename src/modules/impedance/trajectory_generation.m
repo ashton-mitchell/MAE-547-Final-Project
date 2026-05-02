@@ -1,6 +1,6 @@
 function input = trajectory_generation(input, N)
     robot = build_robot(input.robot);
-    tform_init = getTransform(robot, input.sim.q0', sprintf('body%d',N));
+    tform_init = robot.fkine(input.sim.q0');
     x_init = tform_init(1:3,4);
 
     t = (0:input.sim.dt:input.sim.t_final)';

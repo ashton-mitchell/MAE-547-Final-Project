@@ -27,6 +27,7 @@ function input = create_sim_input()
     input.sim.external_tau = [];    % Nx1
     input.sim.external_amplitude = [];
     input.sim.external_frequency = [];
+    input.sim.external_input = 'Constant Torque';
 
     input.sim.environment_enabled = false;
 

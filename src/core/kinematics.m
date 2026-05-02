@@ -22,6 +22,9 @@ function kin = kinematics(q, robot)
     T = eye(4);
 
     for i = 1:N
+        z_axes(:,i) = T(1:3,3);
+        p_origins(:,i) = T(1:3,4);
+
         if robot.joint_types(i) == "R" % revolute
             theta = robot.theta(i) + q(i);
             d     = robot.d(i);
@@ -38,12 +41,6 @@ function kin = kinematics(q, robot)
 
         % Store
         T_all(:,:,i) = T;
-
-        % Joint axis z_i (current frame z-axis in world)
-        z_axes(:,i) = T(1:3,3);
-
-        % Joint origin
-        p_origins(:,i) = T(1:3,4);
 
         % COM position
         R = T(1:3,1:3);
