@@ -6,7 +6,7 @@ output = run_impedance(input);
 nSteps = length(output.time);
 
 %%
-plot_impedance_results_2(input, output)
+plot_impedance_results(input, output)
 
 %%
-animate_impedance_2(input, output)
+animate_impedance(input, output)
